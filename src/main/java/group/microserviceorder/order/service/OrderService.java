@@ -85,7 +85,10 @@ public class OrderService {
     }
 
     public Order getOrder(Long orderId){
-        return orderRepository.getById(orderId);
+        return orderRepository.findOrderById(orderId).orElseThrow(
+                () -> new RuntimeException("해당 주문을 찾을 수 잆습니다")
+
+        );
     }
 
     public Long getTotalPrice(Long orderId){
@@ -96,8 +99,6 @@ public class OrderService {
         }
         return totalPrice;
     }
-
-
 
 
 }

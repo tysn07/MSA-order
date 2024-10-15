@@ -3,6 +3,7 @@ package group.microserviceorder.order.entity;
 
 import group.microserviceorder.global.TimeStamped;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,8 @@ public class Order extends TimeStamped {
 
     @Enumerated(value = EnumType.STRING)
     private OrderState state;
+
+    @Builder
     public Order(Long userId,String address,OrderState state){
         this.userId = userId;
         this.address = address;

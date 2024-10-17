@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@FeignClient(name = "microservice-product", url = "http://localhost:8083/external")
+@FeignClient(name = "microservice-product", url = "http://3.39.43.179:8083/external")
 public interface ProductFeignClient {
 
     @GetMapping("/products/{productId}")

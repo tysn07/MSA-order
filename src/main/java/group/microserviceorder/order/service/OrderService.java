@@ -13,6 +13,7 @@ import group.microserviceorder.remote.feign.ProductFeignClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final ProductFeignClient productFeignClient;
-
+    private final EventListener eventListener;
     @Transactional
     public void createOrder(Map<Long,Long> basket, UserDetailsImpl userDetails, String address) throws Exception {
         if(address.isEmpty()){
@@ -43,6 +44,8 @@ public class OrderService {
             OrderDetail orderDetail= new OrderDetail(order.getId(),key,basket.get(key),productFeignClient.getProduct(key).getPrice(),productFeignClient.getProduct(key).getName());
             orderDetailRepository.save(orderDetail);
         }
+
+        eventListener.order(order.getId());
 
     }
     public List<OrderDetailResponseDto> getOrderDetailList(Long orderId){
